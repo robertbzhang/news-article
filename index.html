@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>News Article List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+<body ng-app='ArticleListApp'>
+  <div class="container" ng-controller="ArticleListController as list">
+    <h1>New York Times Article Search</h1>
+
+    <form ng-submit="myFunc()">
+      <div class="form-group">
+        <input autofocus type="text" ng-model="list.input" placeholder="keyword" class="form-control">
+      </div>
+      <div class="form-group narrow-button">
+        <button class="btn btn-primary" ng-click="list.getData(list.input);">Get Articles</button>
+      </div>
+    </form>
+
+    <div ng-if="list.submitted"
+         class="text-center">
+      <button class="btn btn-default" ng-click="list.previous();">Previous</button>
+      Page {{ list.page }}
+      <button class="btn btn-default" ng-click="list.next();">Next</button>
+    </div>
+
+    <div class="row" style="padding: 10px 0px" ng-repeat="item in list.articles">
+      <div class="col-md-6">
+        <h3><a href="{{item.web_url}}">{{ item.headline.main }}</a></h3>
+        {{ item.pub_date.substring(0,10) }}
+        {{ item.subsection_name }}
+        <p>{{ item.lead_paragraph }}</p>
+      </div>
+      <div class="col-md-6"
+           ng-if="item.multimedia[1]">
+        <a href="{{item.web_url}}">
+          <img class="img-responsive"
+               src="http://www.nytimes.com/{{item.multimedia[0].url}}">
+        </a>
+      </div>
+    </div>
+
+    <div ng-if="list.submitted"
+         class="text-center">
+      <button class="btn btn-default" ng-click="list.previous();">Previous</button>
+      Page {{ list.page }}
+      <button class="btn btn-default" ng-click="list.next();">Next</button>
+    </div>
+
+  </div>
+
+</body>
+</html>
